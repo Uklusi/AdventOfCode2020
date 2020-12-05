@@ -1,0 +1,6 @@
+#! /bin/bash
+
+cd ./Day_$1/
+python3 part$2.py
+
+cd ../
