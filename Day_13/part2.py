@@ -1,6 +1,6 @@
 result = 0
 
-# Copiata beceramente, inverso di A mod n
+# Copiata beceramente da https://stackoverflow.com/a/29762148, inverso di A mod n 
 modInverse = lambda A, n,s=1,t=0,N=0: (n < 2 and t%N or modInverse(n, A%n, t, s-A//n*t, N or n),-1)[n<1]
 
 with open("input.txt", "r") as input:
