@@ -1,5 +1,4 @@
 import functools
-import re
 
 rules = {}
 messages = set()
@@ -17,14 +16,6 @@ with open("input.txt", "r") as input:
             messages.add(line)
 
 
-explicitRule = {}
-
-
-@functools.cache
-def pairs(a1, b1):
-    return [a + b for a in a1 for b in b1]
-
-
 @functools.cache
 def constructRule(ruleName):
     rule = rules[ruleName]
@@ -39,18 +30,18 @@ def constructRule(ruleName):
             res = [vs[0].strip('"')]
         elif len(vs) == 1:
             res += constructRule(vs[0])
-        else:
-            res += pairs(
-                constructRule(vs[0]),
-                constructRule(vs[1])
-            )
+        elif ruleName not in vs:
+            res += [
+                a + b
+                for a in constructRule(vs[0])
+                for b in constructRule(vs[1])
+            ]
     return res
 
 
-validMess = constructRule("0")
+validMess = set(constructRule("0"))
 
-print(validMess)
-
+result = len(validMess.intersection(messages))
 
 
 with open("output1.txt", "w") as output:
