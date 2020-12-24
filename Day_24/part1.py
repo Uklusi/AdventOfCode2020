@@ -1,24 +1,6 @@
 result = 0
 directions = []
 
-class Coordinate:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def __add__(self, other):
-        return Coordinate(self.x + other.x, self.y + other.y)
-
-    def __eq__(self, other):
-        return (self.x == other.x) and (self.y == other.y)
-
-    def __ne__(self, other):
-        return not self == other
-    
-    def __hash__(self):
-        return hash((self.x, self.y))
-
-
 with open("input.txt", "r") as input:
     for line in input:
         line = line.strip()
@@ -34,25 +16,29 @@ with open("input.txt", "r") as input:
 
 def stepCoordinate(step):
     if step == "e":
-        return Coordinate(1, 0)
+        return (1, 0)
     elif step == "w":
-        return Coordinate(-1, 0)
+        return (-1, 0)
     elif step == "ne":
-        return Coordinate(0, 1)
+        return (0, 1)
     elif step == "sw":
-        return  Coordinate(0, -1)
+        return  (0, -1)
     elif step == "se":
-        return Coordinate(1, -1)
+        return (1, -1)
     elif step == "nw":
-        return Coordinate(-1, 1)
+        return (-1, 1)
+
+def addCoords(a, b):
+    return (a[0] + b[0], a[1] + b[1])
 
 
 tilesFlipped = set()
 
 for tileDirection in directions:
-    currentTile = Coordinate(0, 0)
+    currentTile = (0, 0)
     for step in tileDirection:
-        currentTile += stepCoordinate(step)
+        currentTile = addCoords(currentTile, stepCoordinate(step))
+    # print(currentTile)
     tilesFlipped ^= {currentTile}
 
 result = len(tilesFlipped)
